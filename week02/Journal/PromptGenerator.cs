@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 public class PromptGenerator
 {
-    public List<string> _prompts;
+    private List<string> _prompts = new List<string>();
     private Random _random;
     
     public PromptGenerator()

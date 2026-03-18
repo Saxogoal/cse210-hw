@@ -4,28 +4,26 @@ using System.IO;
 
 public class Journal
 {
-    public List<string> _answers;
-    int _date;
-    
-    public Journal()
+    private List<Entry> _entries = new List<Entry>();
+
+    public void AddEntry(Entry entry)
     {
-        _answers = new List<string>();
-        _date = DateTime.Now.Day;
+        _entries.Add(entry);
     }
-    
-    public void DisplayAnswer()
+
+    public void DisplayAll()
     {
-        if (_answers.Count == 0)
+        if (_entries.Count == 0)
         {
             Console.WriteLine("No entries in this journal yet.");
             return;
         }
-        
-        Console.WriteLine($"\n--- Journal Entries (Day {_date}) ---");
-        for (int i = 0; i < _answers.Count; i++)
+
+        foreach (Entry entry in _entries)
         {
-            Console.WriteLine($"{i + 1}. {_answers[i]}");
+            entry.Display();
         }
+
         Console.WriteLine();
     }
     
@@ -33,12 +31,13 @@ public class Journal
     {
         using (StreamWriter outputFile = new StreamWriter(filename))
         {
-            outputFile.WriteLine(_date);
-            foreach (string answer in _answers)
+            foreach (Entry entry in _entries)
             {
-                outputFile.WriteLine(answer);
+
+                outputFile.WriteLine($"{entry.Date}|{entry.Prompt}|{entry.Answer}");
             }
         }
+
         Console.WriteLine($"Journal saved to {filename}");
     }
     
@@ -49,21 +48,46 @@ public class Journal
             Console.WriteLine($"File {filename} not found.");
             return;
         }
+
+        string[] lines = File.ReadAllLines(filename);
+        _entries.Clear();
         
-        _answers.Clear();
-        using (StreamReader inputFile = new StreamReader(filename))
+        foreach (string line in lines)
         {
-            string line = inputFile.ReadLine();
-            if (int.TryParse(line, out int date))
+            string[] parts = line.Split('|');
+
+            if (parts.Length == 3)
             {
-                _date = date;
-            }
-            
-            while ((line = inputFile.ReadLine()) != null)
-            {
-                _answers.Add(line);
+
+                Entry entry = new Entry(parts[1], parts[2]);
+
+                entry.SetDate(parts[0]); 
+
+                _entries.Add(entry);
             }
         }
-        Console.WriteLine($"Journal loaded from {filename}");
+
+        Console.WriteLine($"Journal loaded from {filename}"); 
     }
-}
+
+    public void Search(string keyword)
+        {
+            bool found = false;
+
+            foreach (Entry entry in _entries)
+            {
+                if (entry.Prompt.ToLower().Contains(keyword.ToLower()) ||
+                    entry.Answer.ToLower().Contains(keyword.ToLower()))
+                {
+                    entry.Display();
+                    Console.WriteLine();
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                Console.WriteLine("No matching entries found.");
+            }
+        }
+    }
