@@ -22,7 +22,6 @@ class Program
             
             string choice = Console.ReadLine();
             
-            switch (choice)
             {
                 case "1":
                     string prompt = promptGenerator.WritePrompt();
