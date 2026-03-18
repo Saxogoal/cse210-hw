@@ -5,7 +5,7 @@ public class PromptGenerator
 {
     private List<string> _prompts = new List<string>();
     private Random _random;
-    
+
     public PromptGenerator()
     {
         _prompts = new List<string>
@@ -17,10 +17,11 @@ public class PromptGenerator
             "If I had one thing I could do over today, what would it be?",
             "What am I grateful for today?"
         };
+
         _random = new Random();
     }
-    
-    public string WritePrompt()
+
+    public string GetRandomPrompt()
     {
         int index = _random.Next(_prompts.Count);
         return _prompts[index];

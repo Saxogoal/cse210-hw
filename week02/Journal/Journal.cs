@@ -6,9 +6,9 @@ public class Journal
 {
     private List<Entry> _entries = new List<Entry>();
 
-    public void AddEntry(Entry entry)
+    public void AddEntry(Entry newEntry)
     {
-        _entries.Add(entry);
+        _entries.Add(newEntry);
     }
 
     public void DisplayAll()
@@ -27,29 +27,28 @@ public class Journal
         Console.WriteLine();
     }
     
-    public void Save(string filename)
+    public void SaveToFile(string file)
     {
-        using (StreamWriter outputFile = new StreamWriter(filename))
+        using (StreamWriter outputFile = new StreamWriter(file))
         {
             foreach (Entry entry in _entries)
             {
-
-                outputFile.WriteLine($"{entry.Date}|{entry.Prompt}|{entry.Answer}");
+                outputFile.WriteLine($"{entry.Date}|{entry.PromptText}|{entry.EntryText}");
             }
         }
 
-        Console.WriteLine($"Journal saved to {filename}");
+        Console.WriteLine($"Journal saved to {file}");
     }
     
-    public void Load(string filename)
+    public void LoadFromFile(string file)
     {
-        if (!File.Exists(filename))
+        if (!File.Exists(file))
         {
-            Console.WriteLine($"File {filename} not found.");
+            Console.WriteLine($"File {file} not found.");
             return;
         }
 
-        string[] lines = File.ReadAllLines(filename);
+        string[] lines = File.ReadAllLines(file);
         _entries.Clear();
         
         foreach (string line in lines)
@@ -58,36 +57,35 @@ public class Journal
 
             if (parts.Length == 3)
             {
-
                 Entry entry = new Entry(parts[1], parts[2]);
-
-                entry.SetDate(parts[0]); 
+                entry.SetDate(parts[0]);
 
                 _entries.Add(entry);
             }
         }
 
-        Console.WriteLine($"Journal loaded from {filename}"); 
+        Console.WriteLine($"Journal loaded from {file}");
     }
 
+    // ✅ Search feature (kept)
     public void Search(string keyword)
+    {
+        bool found = false;
+
+        foreach (Entry entry in _entries)
         {
-            bool found = false;
-
-            foreach (Entry entry in _entries)
+            if (entry.PromptText.ToLower().Contains(keyword.ToLower()) ||
+                entry.EntryText.ToLower().Contains(keyword.ToLower()))
             {
-                if (entry.Prompt.ToLower().Contains(keyword.ToLower()) ||
-                    entry.Answer.ToLower().Contains(keyword.ToLower()))
-                {
-                    entry.Display();
-                    Console.WriteLine();
-                    found = true;
-                }
-            }
-
-            if (!found)
-            {
-                Console.WriteLine("No matching entries found.");
+                entry.Display();
+                Console.WriteLine();
+                found = true;
             }
         }
+
+        if (!found)
+        {
+            Console.WriteLine("No matching entries found.");
+        }
     }
+}

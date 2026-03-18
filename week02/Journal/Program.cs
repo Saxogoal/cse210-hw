@@ -29,7 +29,7 @@ class Program
 
             if (choice == 1)
             {
-                string prompt = promptGenerator.WritePrompt();
+                string prompt = promptGenerator.GetRandomPrompt();
 
                 Console.WriteLine($"\n{prompt}");
                 Console.Write("> ");
@@ -47,14 +47,14 @@ class Program
                 Console.Write("Enter filename to save: ");
                 string filename = Console.ReadLine();
 
-                journal.Save(filename);
+                journal.SaveToFile(filename);
             }
             else if (choice == 4)
             {
                 Console.Write("Enter filename to load: ");
                 string filename = Console.ReadLine();
 
-                journal.Load(filename);
+                journal.LoadFromFile(filename);
             }
             else if (choice == 5)
             {
@@ -69,7 +69,6 @@ class Program
             }
         }
     }
-
 
     static int GetMenuChoice()
     {
