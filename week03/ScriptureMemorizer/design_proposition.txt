@@ -1,0 +1,48 @@
+============================================================
+                     DESIGN PROPOSITION
+============================================================
+
+------------------------------------------------------------
+CLASS: Scripture
+------------------------------------------------------------
+Attributes:
+  - _reference : Reference
+  - _words : List<Word>
+
+Methods:
+  - HideRandomWords(numberToHide : int) : void
+  - GetDisplayText() : string
+  - IsCompletelyHidden() : bool
+
+------------------------------------------------------------
+CLASS: Word
+------------------------------------------------------------
+Attributes:
+  - _text : string
+  - _isHidden : bool
+
+Methods:
+  - Hide() : void
+  - Show() : void
+  - IsHidden() : bool
+  - GetDisplayText() : string
+
+------------------------------------------------------------
+CLASS: Reference
+------------------------------------------------------------
+Attributes:
+  - _book : string
+  - _chapter : int
+  - _verse : int
+  - _endVerse : int
+
+Methods:
+  - GetDisplayText() : string
+
+------------------------------------------------------------
+POSSIBLE GETTERS AND SETTERS
+------------------------------------------------------------
+  (to be defined based on which attributes need 
+   controlled access from outside their class)
+
+============================================================
