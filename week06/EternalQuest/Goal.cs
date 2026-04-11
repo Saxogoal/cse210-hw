@@ -1,38 +1,42 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 
-public class Goal
+abstract class Goal
 {
     private string _shortName;
     private string _description;
     private int _points;
 
-    public string ShortName
+    public Goal(string shortName, string description, int points)
     {
-        get {return _shortName}
-        set {_shortName = value}
-    }
-    public Goal(string _shortName, string _description, int _points)
-    {
-        _shortName = _shortName;
+        _shortName = shortName;
         _description = description;
-        _points = _points;
+        _points = points;
     }
-    public void RecordEvent()
-    {
 
-    }
-    public bool IsComplete()
+    public string GetShortName()
     {
-        
+        return _shortName;
     }
-    public string GetDetails()
+
+    public string GetDescription()
     {
-        
+        return _description;
     }
-    public string GetString()
+
+    public int GetPoints()
     {
-        
+        return _points;
     }
+
+    public abstract int RecordEvent();
+
+    public abstract bool IsComplete();
+
+    public virtual string GetDetails()
+    {
+        string checkbox = IsComplete() ? "[X]" : "[ ]";
+        return $"{checkbox} {_shortName} ({_description})";
+    }
+
+    public abstract string GetString();
 }
