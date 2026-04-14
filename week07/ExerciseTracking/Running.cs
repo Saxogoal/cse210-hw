@@ -1,26 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 public class Running : Activity
 {
     private double _distance;
 
-    public Running(double _distance)
+    public Running(string date, int minutes, double distance) : base(date, minutes)
     {
-        _distance = _distance;
-    }
-    public override double GetDistance()
-    {
-        
-    }
-    public override double GetSpeed()
-    {
-        
-    }
-    public override double GetPace()
-    {
-        
+        _distance = distance;
     }
 
+    public override double GetDistance() => _distance;
+
+    public override double GetSpeed() => (_distance / GetMinutes()) * 60;
+
+    public override double GetPace() => GetMinutes() / _distance;
 }

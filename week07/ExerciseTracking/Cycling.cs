@@ -1,27 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 public class Cycling : Activity
 {
-    private double _distance;
+    private double _speed;
 
-    public Cycling(double _distance) 
-    :base(date, minutes)
+    public Cycling(string date, int minutes, double speed) : base(date, minutes)
     {
-        _distance = _distance;
+        _speed = speed;
     }
 
-    public override double GetDistance()
-    {
-        
-    }
-    public override double GetSpeed()
-    {
-        
-    }
-    public override double GetPace()
-    {
-        
-    }
+    public override double GetDistance() => (_speed * GetMinutes()) / 60;
+
+    public override double GetSpeed() => _speed;
+
+    public override double GetPace() => 60 / _speed;
 }
